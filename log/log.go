@@ -19,12 +19,11 @@ func Println(ctx context.Context, msg string) {
 	log.Printf("[%d] %s", id, msg)
 }
 
-func Decorator(r http.HandlerFunc) http.HandlerFunc {
+func Decorator(f http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		id := rand.Int63()
 		ctx = context.WithValue(ctx, requestIdKey, id)
 		f(w, r.WithContext(ctx))
-
 	}
 }
